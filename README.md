@@ -1,2 +1,2 @@
 # ldsuite
-A basic collection of statistical tools for linguistic data science  
+A collection of statistical tools for linguistic data science  
