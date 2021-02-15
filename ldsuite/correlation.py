@@ -1,7 +1,10 @@
+import math
 import logging
 import numpy as np
 import pandas as pd
 import scipy.stats as ss
+
+from collections import Counter
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -15,6 +18,15 @@ class CatCorrelator:
     -------
         measure(self, data: pd.DataFrame, nft: int, mkey: str) -> np.ndarray
             Instance-method that calculates categorical correlation measures.
+        
+        cramersv(x:pd.Series, y:pd.Series) -> float
+            Static-method that calculates Cramer's V
+            
+        theilsu(cls, x:pd.Series, y:pd.Series) -> float
+            Class-method that calculates Theil's U
+            
+        centropy(x:pd.Series, y:pd.Series) -> float
+            Static-method that calculates conditional entropy        
     """
     def measure(self, data: pd.DataFrame, nft: int, mkey: str) -> np.ndarray:
         """
@@ -61,7 +73,7 @@ class CatCorrelator:
     @staticmethod
     def cramersv(x:pd.Series, y:pd.Series) -> float:
         """
-        Static-method calculates Cramer's V
+        Static-method that calculates Cramer's V
         for category-to-category association.
         
         This implementation uses the correction technique proposed by:
@@ -84,5 +96,64 @@ class CatCorrelator:
         kcorr = k-((k-1)**2)/(n-1)
         
         return np.sqrt(phi2corr/min((kcorr-1),(rcorr-1)))
+    
+    @classmethod
+    def theilsu(cls, x:pd.Series, y:pd.Series) -> float:
+        """
+        Class-method that calculates Theil's U, AKA the 
+        uncertainty coefficient for category-to-category association.
+    
+        :param cls:
+        :param x:
+        :param y:
+        """
+        # Compute conditional entropy
+        s_xy = cls.centropy(x,y)
+        x_ctr = Counter(x)
+        
+        # Calculate total occurrences
+        tocr = sum(x_ctr.values())
+        
+        # Calculate coefficients
+        p_x = list(map(lambda n: n/tocr, x_ctr.values()))
+        s_x = ss.entropy(p_x)
+        
+        # Decide on final value
+        if s_x == 0:
+            return 1
 
+        else:
+            return (s_x - s_xy)/s_x
 
+    @staticmethod
+    def centropy(x:pd.Series, y:pd.Series) -> float:
+        """
+        Static-method that calculates the
+        conditional entropy of x given y: S(x|y)
+        
+        https://en.wikipedia.org/wiki/Conditional_entropy
+        
+        :param x:
+        :param y:
+        """
+        # Create counters
+        y_ctr = Counter(y)
+        xy_ctr = Counter(list(zip(x,y)))
+
+        # Calculate total occurrences
+        tocr = sum(y_ctr.values())
+        
+        # Initialize conditional entropy
+        entropy = 0.0
+        
+        # Consider every entry
+        for entry in xy_ctr.keys():
+            
+            # Calculate probabilities
+            p_xy = xy_ctr[entry]/tocr
+            p_y = y_ctr[entry[1]]/tocr
+            
+            # Update entropy value
+            entropy += p_xy * math.log(p_y/p_xy)
+
+        return entropy
