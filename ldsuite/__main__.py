@@ -29,10 +29,10 @@ def main(args: List[str]):
 
     # Calculate symmetric correlation with Cramer's V
     crlt.cramer(args.data, os.path.join(args.out_dir, 'cramers_v.jpg'), args.prt)
-    
+
     # Calculate asymmetric correlation with Theil's U
     crlt.theil(args.data, os.path.join(args.out_dir, 'theils_u.jpg'), args.prt)
-    
+
 
 def parse_args() -> List[Any]:
     """
@@ -48,7 +48,7 @@ def parse_args() -> List[Any]:
                         type=str,
                         help='Path to dataset.',
                         required=True)
-    
+
     parser.add_argument('-o', '--output',
                         dest='out_dir',
                         type=str,
