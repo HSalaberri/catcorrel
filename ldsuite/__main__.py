@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
 
 """
+usage: ldsuite [-h] -d DATA -o OUT_DIR
 
+calculates categorical-correlation measures.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DATA, --data DATA  Path to dataset.
+  -o OUT_DIR, --output OUT_DIR
+                        Directory to store correlation-reports.
 """
 import os
 import logging
@@ -10,6 +18,8 @@ import argparse
 from typing import List, Any
 
 from ldsuite.correlation import CatCorrelator
+from ldsuite.utils import prepare_F250
+from ldsuite.data.reader import load_csv
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -23,15 +33,21 @@ def main(args: List[str]):
     :param args:
     """
     log.info("Calculating categorical-correlations...")
+    
+    # Read and prepare data
+    dpth = prepare_F250(args.data)
+    
+    # Load data
+    data = load_csv(dpth)
 
     # Create CatCorrelator instance
     crlt = CatCorrelator()
 
     # Calculate symmetric correlation with Cramer's V
-    crlt.cramer(args.data, os.path.join(args.out_dir, 'cramers_v.jpg'), args.prt)
+    crlt.cramer(data, os.path.join(args.out_dir, 'cramers_v.jpg'), args.prt)
 
     # Calculate asymmetric correlation with Theil's U
-    crlt.theil(args.data, os.path.join(args.out_dir, 'theils_u.jpg'), args.prt)
+    crlt.theil(data, os.path.join(args.out_dir, 'theils_u.jpg'), args.prt)
 
 
 def parse_args() -> List[Any]:
