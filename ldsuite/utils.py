@@ -170,7 +170,7 @@ def prepare_F250Inst(dp: str, atrs: List[Dict[str, int]]) -> str:
         for idx, lpt in enumerate(lpts):
                     
             # Prepare
-            lptr = lpt.lower()
+            lptr = lpt.lower().replace(',', '').replace('/', '')
                     
             # Store for QA
             if lptr not in atrs[idx]:

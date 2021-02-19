@@ -7,4 +7,5 @@ def load_csv(fpth: str) -> pd.DataFrame:
 
     :param fpth:
     """
-    return pd.read_csv(fpth)
+    return pd.read_csv(fpth, sep=';')
+    #return pd.read_csv(fpth)

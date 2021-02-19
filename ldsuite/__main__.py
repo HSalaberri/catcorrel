@@ -18,7 +18,7 @@ import argparse
 from typing import List, Any
 
 from ldsuite.correlation import CatCorrelator
-from ldsuite.utils import prepare_F250
+from ldsuite.utils import prepare_F250, heatmap
 from ldsuite.data.reader import load_csv
 
 logging.basicConfig(level=logging.INFO)
@@ -36,18 +36,32 @@ def main(args: List[str]):
     
     # Read and prepare data
     dpth = prepare_F250(args.data)
+    #dpth = args.data
     
     # Load data
     data = load_csv(dpth)
+    log.info(data)
 
     # Create CatCorrelator instance
     crlt = CatCorrelator()
 
-    # Calculate symmetric correlation with Cramer's V
-    crlt.cramer(data, os.path.join(args.out_dir, 'cramers_v.jpg'), args.prt)
+    # Get number of features
+    nft = data.shape[1]
+    log.info(data.shape)
 
+    # Calculate symmetric correlation with Cramer's V
+    crmv_corr = crlt.measure(data, nft, "crmv")
+    log.info(crmv_corr)
+    
     # Calculate asymmetric correlation with Theil's U
-    crlt.theil(data, os.path.join(args.out_dir, 'theils_u.jpg'), args.prt)
+    #thlv_corr = crlt.measure(data, nft, "thlv")
+    #log.info(thlv_corr)
+
+    # Create correlation-heatmaps 
+    heatmap(crmv_corr, data, "YlGnBu", "Symmetric correlation through Cramer's V", os.path.join(args.out_dir, 'cramersv_old.png'))
+    #heatmap(thlv_corr, data, "YlGnBu", "Asymmetric correlation through Theil's U", os.path.join(args.out_dir, 'theilsu_old.png'))
+    
+    # Create histograms
 
 
 def parse_args() -> List[Any]:
