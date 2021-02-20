@@ -1,2 +1,2 @@
-# ldsuite
-A collection of statistical tools for linguistic data science  
+# catcorrel
+A basic collection of statistical tools for measuring categorical correlation
