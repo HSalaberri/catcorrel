@@ -2,15 +2,15 @@
 
 One of the key factors when statistically analyzing variables is their type or nature, namely, variables can exhibit a _continuous_ or _discrete_ behaviour; the later are also frequently referred to as _nominal_ or _categorical_ parameters in statistical literature. As a result of such a distinction, there are, in general terms, three types of parameter-pairs that can be addressed when, for instance, trying to compute variable-correlation: those between categorical variables, those between discrete variables and those with mixed types. It is of utmost importance to point out that each of the contexts will require from a tailored set of statistical techniques.
 
-</br>
+<p></p>
 	
 For measuring the correlation of continuous variables _Pearson's Correlation_ [1] is typically used and for mixed types, on the other hand, _Logistic Regression_ [2] or an adaptation of Pearson's Correlation by the name of _Point Biserial Correlation_ [3] can be applied.
 
-</br>
+<p></p>
 
 In what concerns this project, however, all of the considered data-variables so far exhibit a nominal behaviour; therefore, correlation has been quantified by means of __Cramer's V__ [4] which is a correlation-technique based on _Pearson's chi-squared_ statistic [5] and also sometimes referred to as _Cramer's phi_. In addition, and given the symmetric nature of Crammer's V and the limited size of the corpus, __Theil's U__ (also known as the _Uncertainty Coefficient_) [6] has also been computed over the set of considered parameters in order to get a clearer and non-symmetric view of the parameter correlations without 'loosing' any instances to symmetry.
 
-</br>
+<p></p>
 
 It is also worth mentioning that there are two major ways in which correlation between discrete variables can be calculated, by so-called _Distance Metrics_ (DM) such as the _Manhattan_ and the _Canberra_ distances [7, 8] and by means of _Contingency Table Analytics (CTA)_ such as the ones implemented in Cramer's V and Theil's U. The decision of using CTA techniques to conduct the statistical analysis in this research has been motivated by the fact that one of the biggest drawbacks of DM techniques is their strong sensitivity to input scale adaptations, making it hard to correctly compare correlation factors across several iterations of corpus extensions. In addition, DMs are also said to be not easily comparable when correlating variable pairs which can take different numbers of categories.
 
