@@ -5,14 +5,15 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 # Establish setup parameters
-setuptools.setup(name="ldsuite",
+setuptools.setup(name="catcorrel",
                  version="0.0-alpha.1",
                  author="Haritz Salaberri",
                  author_email="hsalaberri@gmail.com",
-                 description="Collection of statistical tools for linguistic data science",
+                 description="Basic collection of statistical tools for " +
+                             "measuring categorical correlation.",
                  long_description=long_description,
                  long_description_content_type="text/markdown",
-                 url="https://github.com/HSalaberri/ldsuite",
+                 url="https://github.com/HSalaberri/catcorrel",
                  packages=setuptools.find_packages(),
                  classifiers=["Programming Language :: Python :: 3",
                               "License :: OSI Approved :: Apache-2.0 License",
