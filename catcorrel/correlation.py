@@ -54,9 +54,6 @@ class CatCorrelator:
                 # Convert to Pandas Series for performance reasons
                 y = pd.Series(data[cat0])
                 x = pd.Series(data[cat1])
-                
-                log.info(x)
-                log.info(y)
 
                 # Use Cramer's V
                 if mkey == "crmv":
@@ -94,14 +91,8 @@ class CatCorrelator:
         n = cm.sum().sum()
         phi2 = chi2/n
         r, k = cm.shape
-        
-        log.info(r)
-        log.info(k)
-        
+
         phi2corr = max(0, phi2-((k-1)*(r-1))/(n-1))
-        
-        log.info(phi2corr)
-        
         rcorr = r-((r-1)**2)/(n-1)
         kcorr = k-((k-1)**2)/(n-1)
 

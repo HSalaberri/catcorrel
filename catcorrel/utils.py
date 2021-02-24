@@ -84,7 +84,7 @@ def shuffle(dpth: str, header:str) -> str:
     :param header:
     """
     # Read and shuffle lines    
-    with open(dpth, mode="r", encoding="utf-8") as rdf:
+    with open(dpth, mode="r") as rdf:
         
         # Get lines and remove header
         lines = list(rdf)
@@ -98,21 +98,22 @@ def shuffle(dpth: str, header:str) -> str:
     dpth_rnd = dpth + '_rnd.csv'
 
     # Save shuffled data
-    with open(dpth_rnd, mode="w", encoding="utf-8") as fh:
+    with open(dpth_rnd, mode="w") as fh:
         
         # Write header and then data-points
-        fh.write(header.decode('utf-8'))
+        fh.write(header)
         fh.writelines(lines)
 
     return dpth_rnd
 
 
-def prepare_F250(fpth: str) -> str:
+def prepare_F250(fpth: str, shf: bool) -> str:
     """
     This function prepares the F250 dataset
     for categorical correlation measuring.
 
     :param fpth:
+    :param shf:
     """
     prl = []
     
@@ -145,9 +146,14 @@ def prepare_F250(fpth: str) -> str:
     with open(ppth, 'w') as fhw:
         
         # Write cooked header and prepared lines
-        fhw.write(lines[0].replace('LANG_NAME;', '').replace('SOURCE;', ''))
+        ckd_hdr = lines[0].replace('LANG_NAME;', '').replace('SOURCE;', '').replace('LANG_ISO;', '')
+        fhw.write(ckd_hdr)
         fhw.writelines("\n".join(prl))
         
+    # Shuffle lines if requested
+    if shf:
+        ppth = shuffle(ppth, ckd_hdr)
+
     return ppth
 
 
@@ -160,7 +166,7 @@ def prepare_F250Inst(dp: str, atrs: List[Dict[str, int]]) -> str:
     """
     # Split
     lpts = dp.strip().split(';')
-            
+
     # QA
     if len(lpts) == 8:
         
@@ -179,8 +185,8 @@ def prepare_F250Inst(dp: str, atrs: List[Dict[str, int]]) -> str:
             else:
                 atrs[idx][lptr] = atrs[idx][lptr] + 1
             
-            # Don't consider LANG_NAME and SOURCE
-            if (idx != 1) and (idx != 4):
+            # Don't consider LANG_NAME, LANG_ISO and SOURCE
+            if (idx != 0) and (idx != 1) and (idx != 4):
                 
                 # Concatenate prepared value
                 if pline == "":

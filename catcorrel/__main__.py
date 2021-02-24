@@ -18,7 +18,7 @@ import argparse
 from typing import List, Any
 
 from catcorrel.correlation import CatCorrelator
-from catcorrel.utils import prepare_F250, heatmap
+from catcorrel.utils import prepare_F250, heatmap, histogram
 from catcorrel.data.reader import load_csv
 
 logging.basicConfig(level=logging.INFO)
@@ -34,12 +34,11 @@ def main(args: List[str]):
     """
     log.info("Calculating categorical-correlations...")
     
-    # Read and prepare data
-    dpth = prepare_F250(args.data)
-    #dpth = args.data
-    
+    # Read and prepare data (shf for shuffling)
+    dpth = prepare_F250(args.data, shf=True)
+
     # Load data
-    data = load_csv(dpth)
+    data = load_csv(dpth, ";")
     log.info(data)
 
     # Create CatCorrelator instance
@@ -47,21 +46,54 @@ def main(args: List[str]):
 
     # Get number of features
     nft = data.shape[1]
-    log.info(data.shape)
 
     # Calculate symmetric correlation with Cramer's V
     crmv_corr = crlt.measure(data, nft, "crmv")
     log.info(crmv_corr)
     
     # Calculate asymmetric correlation with Theil's U
-    #thlv_corr = crlt.measure(data, nft, "thlv")
-    #log.info(thlv_corr)
+    thlv_corr = crlt.measure(data, nft, "thlv")
+    log.info(thlv_corr)
 
     # Create correlation-heatmaps 
-    heatmap(crmv_corr, data, "YlGnBu", "Symmetric correlation through Cramer's V", os.path.join(args.out_dir, 'cramersv_old.png'))
-    #heatmap(thlv_corr, data, "YlGnBu", "Asymmetric correlation through Theil's U", os.path.join(args.out_dir, 'theilsu_old.png'))
+    heatmap(crmv_corr, data, "YlGnBu",
+            "Symmetric correlation through Cramer's V",
+            os.path.join(args.out_dir, 'cramersv_old.png'))
+
+    heatmap(thlv_corr, data, "YlGnBu",
+            "Asymmetric correlation through Theil's U",
+            os.path.join(args.out_dir, 'theilsu_old.png'))
     
     # Create histograms
+    histogram(data.GENEALOGICAL_AFFILIATION,
+              os.path.join(args.out_dir,
+                           'histogram_GENEALOGICAL_AFFILIATION.png'),
+              "GENEALOGICAL_AFFILIATION", "GENEALOGICAL_AFFILIATIONS",
+              "green")
+    
+    histogram(data.MACRO_AREA,
+              os.path.join(args.out_dir,
+                           'histogram_MACRO_AREA.png'),
+              "MACRO_AREA", "MACRO_AREAS",
+              "purple")
+    
+    histogram(data.ENC_AVAILABLE,
+              os.path.join(args.out_dir,
+                           'histogram_ENC_AVAILABLE.png'),
+              "ENC_AVAILABLE", "ENC_AVAILABLES",
+              "orange")
+    
+    histogram(data.DISTINCT_FROM_CN,
+              os.path.join(args.out_dir,
+                           'histogram_DISTINCT_FROM_CN.png'),
+              "DISTINCT_FROM_CN", "DISTINCT_FROM_CNS",
+              "red")
+    
+    histogram(data.RELATED_TO_CN,
+              os.path.join(args.out_dir,
+                           'histogram_RELATED_TO_CN.png'),
+              "RELATED_TO_CN", "RELATED_TO_CNS",
+              "cyan")
 
 
 def parse_args() -> List[Any]:
