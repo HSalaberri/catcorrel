@@ -58,11 +58,11 @@ def main(args: List[str]):
     # Create correlation-heatmaps 
     heatmap(crmv_corr, data, "YlGnBu",
             "Symmetric correlation through Cramer's V",
-            os.path.join(args.out_dir, 'cramersv_old.png'))
+            os.path.join(args.out_dir, 'cramersv.png'))
 
     heatmap(thlv_corr, data, "YlGnBu",
             "Asymmetric correlation through Theil's U",
-            os.path.join(args.out_dir, 'theilsu_old.png'))
+            os.path.join(args.out_dir, 'theilsu.png'))
     
     # Create histograms
     histogram(data.GENEALOGICAL_AFFILIATION,
