@@ -35,7 +35,7 @@ def main(args: List[str]):
     log.info("Calculating categorical-correlations...")
     
     # Read and prepare data (shf for shuffling)
-    dpth = prepare_F250(args.data, shf=True)
+    dpth = prepare_F250(args.data, shf=False)
 
     # Load data
     data = load_csv(dpth, ";")

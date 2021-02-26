@@ -86,8 +86,9 @@ def shuffle(dpth: str, header:str) -> str:
     # Read and shuffle lines    
     with open(dpth, mode="r") as rdf:
         
-        # Get lines and remove header
-        lines = list(rdf)
+        # Get lines, make minor correction to last line and remove header
+        lines = rdf.readlines()
+        lines[-1] = lines[-1] + '\n'
         lines.remove(header)
     
     # Shuffle randomly
