@@ -35,7 +35,7 @@ def main(args: List[str]):
     log.info("Calculating categorical-correlations...")
     
     # Read and prepare data (shf for shuffling)
-    dpth = prepare_F250(args.data, shf=False)
+    dpth = prepare_F250(args.data, shf=True)
 
     # Load data
     data = load_csv(dpth, ";")
@@ -69,31 +69,31 @@ def main(args: List[str]):
               os.path.join(args.out_dir,
                            'histogram_GENEALOGICAL_AFFILIATION.png'),
               "GENEALOGICAL_AFFILIATION", "GENEALOGICAL_AFFILIATIONS",
-              "green")
+              "green", 4)
     
     histogram(data.MACRO_AREA,
               os.path.join(args.out_dir,
                            'histogram_MACRO_AREA.png'),
               "MACRO_AREA", "MACRO_AREAS",
-              "purple")
+              "purple", 12)
     
     histogram(data.ENC_AVAILABLE,
               os.path.join(args.out_dir,
                            'histogram_ENC_AVAILABLE.png'),
               "ENC_AVAILABLE", "ENC_AVAILABLES",
-              "orange")
+              "orange", 12)
     
     histogram(data.DISTINCT_FROM_CN,
               os.path.join(args.out_dir,
                            'histogram_DISTINCT_FROM_CN.png'),
               "DISTINCT_FROM_CN", "DISTINCT_FROM_CNS",
-              "red")
+              "red", 12)
     
     histogram(data.RELATED_TO_CN,
               os.path.join(args.out_dir,
                            'histogram_RELATED_TO_CN.png'),
               "RELATED_TO_CN", "RELATED_TO_CNS",
-              "cyan")
+              "cyan", 12)
 
 
 def parse_args() -> List[Any]:

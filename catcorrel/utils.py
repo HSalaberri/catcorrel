@@ -40,11 +40,12 @@ def heatmap(cm: np.ndarray, data: pd.DataFrame,
     fig.savefig(spth, dpi=150)
 
     # Flush
+    plt.clf()
     plt.cla()
 
 
 def histogram(data: pd.DataFrame, spth: str,
-              title: str, xdesc: str, clr: str):
+              title: str, xdesc: str, clr: str, ls: int):
     """
     This function creates an histogram for the given data.
 
@@ -53,6 +54,7 @@ def histogram(data: pd.DataFrame, spth: str,
     :param title:
     :param xdesc:
     :param clr:
+    :param ls:
     """
     # Get data
     cts, vls = np.unique(data, return_counts=True)
@@ -64,8 +66,9 @@ def histogram(data: pd.DataFrame, spth: str,
     plt.xticks(x_locs, cts)
     plt.title(title, size=14)
     plt.xlabel(xdesc, size=12)
-    plt.xticks(rotation=45, ha='right')
+    plt.xticks(rotation=90, ha='right')
     plt.ylabel('Counts', size=12)
+    plt.tick_params(axis='x', which='major', labelsize=ls)
     plt.tight_layout()
 
     # Save
@@ -73,6 +76,7 @@ def histogram(data: pd.DataFrame, spth: str,
     fig.savefig(spth, dpi=150)
 
     # Flush
+    plt.clf()
     plt.cla()
 
 
