@@ -80,19 +80,19 @@ def main(args: List[str]):
     histogram(data.ENC_AVAILABLE,
               os.path.join(args.out_dir,
                            'histogram_ENC_AVAILABLE.png'),
-              "ENC_AVAILABLE", "ENC_AVAILABLES",
+              "ENC_AVAILABLE", "ENC_AVAILABLE",
               "orange", 12)
     
-    histogram(data.DISTINCT_FROM_CN,
+    histogram(data.DISTINCT_FROM_SN,
               os.path.join(args.out_dir,
-                           'histogram_DISTINCT_FROM_CN.png'),
-              "DISTINCT_FROM_CN", "DISTINCT_FROM_CNS",
+                           'histogram_DISTINCT_FROM_SN.png'),
+              "DISTINCT_FROM_SN", "DISTINCT_FROM_SN",
               "red", 12)
     
-    histogram(data.RELATED_TO_CN,
+    histogram(data.RELATED_TO_SN,
               os.path.join(args.out_dir,
-                           'histogram_RELATED_TO_CN.png'),
-              "RELATED_TO_CN", "RELATED_TO_CNS",
+                           'histogram_RELATED_TO_SN.png'),
+              "RELATED_TO_SN", "RELATED_TO_SN",
               "cyan", 12)
 
 
